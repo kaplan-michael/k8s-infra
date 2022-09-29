@@ -1,0 +1,13 @@
+haproxy-ingress-controller:
+  controller:
+    kind: DaemonSet
+    replicaCount: 2                  
+    service:
+      enabled: false
+    ingressClassResource:
+      name: haproxy
+      default: true
+    daemonset:
+      useHostPort: true
+  serviceMonitor:
+    enabled: false
