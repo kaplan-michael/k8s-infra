@@ -1,4 +1,4 @@
-haproxy-ingress-controller:
+kubernetes-ingress:
   controller:
     kind: DaemonSet
     replicaCount: 2                  
