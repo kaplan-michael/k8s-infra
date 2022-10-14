@@ -1,0 +1,6 @@
+rook-ceph:
+  csi:
+    kubeletDirPath: /var/lib/k0s/kubelet
+  monitoring:
+    enabled: false
+
