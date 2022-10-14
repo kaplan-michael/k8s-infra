@@ -1,0 +1,15 @@
+postgresql:
+  global:
+    postgresql:
+      auth:
+        username: kissj
+        existingSecret: kissj-staging-postgresql
+        secretKeys:
+          adminPasswordKey: "admin-password"
+          userPasswordKey: "user-password"
+          
+        database: kissj-staging
+
+  primary:
+    persistence:
+      enabled: false
