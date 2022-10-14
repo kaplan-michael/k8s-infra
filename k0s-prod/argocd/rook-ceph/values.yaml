@@ -4,3 +4,6 @@ rook-ceph:
   monitoring:
     enabled: false
 
+rook-ceph-cluster:
+  toolbox:
+    enabled: true
