@@ -21,12 +21,12 @@ tergum-cronjob:
   tergumConfig:
       Meta:
         SchemaVersion: 3
-      Notification:
-        Targets:
-          - SlackWebhook:
-            SendOK: true
-            URLs:
-              - $SLACK_WEBHOOK_URL
+#      Notification:
+#        Targets:
+#          - SlackWebhook:
+#            SendOK: true
+#            URLs:
+#              - $SLACK_WEBHOOK_URL
 
       Backups:
         - ID: kissj-production
@@ -49,6 +49,6 @@ tergum-cronjob:
               
   # Optional
   image: ghcr.io/tergum-extra/postgres-with-tergum:13-tergum-v0.31.1
-  useV2: false
+  useV2: true
   mountRootPath: false  
   existingSecret: kissj-staging-postgresql-backup
