@@ -13,3 +13,42 @@ postgresql:
   primary:
     persistence:
       enabled: false
+
+
+tergum-cronjob:
+  schedule: "* * * * *"
+  extraName: tergum-postgres-backup
+  tergumConfig:
+      Meta:
+        SchemaVersion: 3
+      Notification:
+        Targets:
+          - SlackWebhook:
+            SendOK: true
+            URLs:
+              - $SLACK_WEBHOOK_URL
+
+      Backups:
+        - ID: kissj-production
+          Source:
+            PostgresServer:
+              Host: $POSTGRES_HOST
+              Port: 5432
+              User: $POSTGRES_USER
+              Password: $POSTGRES_PASSWORD
+              Database: $POSTGRES_DB
+          Targets:
+            - ID: kissj-db-backup
+              S3:
+                AccessKey: $S3_KEY
+                SecretKey: $S3_SECRET
+                Endpoint: $S3_ENDPOINT
+                BucketName: $S3_BUCKET
+                Prefix: staging
+                Suffix: sql
+              
+  # Optional
+  image: ghcr.io/tergum-extra/postgres-with-tergum:13-tergum-v0.31.1
+  useV2: false
+  mountRootPath: false  
+  existingSecret: kissj-staging-postgresql-backup
