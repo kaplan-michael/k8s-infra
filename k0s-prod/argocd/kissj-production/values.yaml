@@ -1,0 +1,18 @@
+postgresql:
+  global:
+    storageClass: ceph-block
+
+    postgresql:
+      auth:
+        username: kissj
+        existingSecret: kissj-production-postgresql
+        secretKeys:
+          adminPasswordKey: "admin-password"
+          userPasswordKey: "user-password"
+          
+        database: kissj-production
+
+  primary:
+    persistence:
+      enabled: true
+      size: 10Gi
