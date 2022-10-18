@@ -48,7 +48,7 @@ tergum-cronjob:
                 AccessKey: $S3_KEY
                 SecretKey: $S3_SECRET
                 Endpoint: $S3_ENDPOINT
-                Region: eu-central-1
+                Region: $S3_REGION
                 BucketName: $S3_BUCKET
                 Prefix: staging
                 Suffix: sql
