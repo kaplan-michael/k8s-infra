@@ -40,14 +40,14 @@ tergum-cronjob:
               User: $POSTGRES_USER
               Password: $POSTGRES_PASSWORD
               Database: $POSTGRES_DB
-          Middlewares:
-            - Gzip: {}
+
           Targets:
             - ID: kissj-db-backup
+              Middlewares:
+                - Gzip: {}
               S3:
                 AccessKey: $S3_KEY
                 SecretKey: $S3_SECRET
-                Endpoint: $S3_ENDPOINT
                 Region: $S3_REGION
                 BucketName: $S3_BUCKET
                 Prefix: staging
