@@ -12,7 +12,8 @@ postgresql:
 
   primary:
     persistence:
-      enabled: false
+      enabled: true
+      size: 10Gi
 
 
 tergum-cronjob:
@@ -32,7 +33,7 @@ tergum-cronjob:
                 - $SLACK_WEBHOOK_URL
 
       Backups:
-        - ID: kissj-production
+        - ID: kissj-staging
           Source:
             Postgres:
               Host: $POSTGRES_HOST
@@ -51,7 +52,7 @@ tergum-cronjob:
                 Region: $S3_REGION
                 BucketName: $S3_BUCKET
                 Prefix: staging
-                Suffix: sql
+                Suffix: sql.gz
               
   # Optional
   image: ghcr.io/tergum-extra/postgres-with-tergum:14-tergum-v0.31.1
