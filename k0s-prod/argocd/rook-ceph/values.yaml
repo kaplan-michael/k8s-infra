@@ -9,28 +9,28 @@ rook-ceph-cluster:
     enabled: true
     resources:
       limits:
-        cpu: "200m"
-        memory: "256Mi"
-      requests:
         cpu: "100m"
-        memory: "128Mi" 
+        memory: "128Mi"
+      requests:
+        cpu: "50m"
+        memory: "64Mi" 
 
   cephClusterSpec:
     resources:
       mgr:
         limits:
-          cpu: "500m"
-          memory: "512Mi"
+          cpu: "600m"
+          memory: "600Mi"
         requests:
-          cpu: "300m"
-          memory: "256Mi"
+          cpu: "400m"
+          memory: "400Mi"
       mon:
         limits:
-          cpu: "1000m"
-          memory: "1Gi"
+          cpu: "600m"
+          memory: "600Mi"
         requests:
-          cpu: "500m"
-          memory: "512Mi"
+          cpu: "400m"
+          memory: "400Mi"
       osd:
         limits:
           cpu: "1000m"
@@ -53,18 +53,18 @@ rook-ceph-cluster:
           memory: "40Mi"
       crashcollector:
         limits:
-          cpu: "200m"
-          memory: "60Mi"
-        requests:
           cpu: "100m"
+          memory: "128Mi"
+        requests:
+          cpu: "50m"
           memory: "60Mi"
       logcollector:
         limits:
-          cpu: "200m"
-          memory: "256Mi"
-        requests:
           cpu: "100m"
-          memory: "100Mi"
+          memory: "128Mi"
+        requests:
+          cpu: "50m"
+          memory: "60Mi"
       cleanup:
         limits:
           cpu: "500m"
@@ -91,11 +91,11 @@ rook-ceph-cluster:
           activeStandby: true
           resources:
             limits:
-              cpu: "1000m"
-              memory: "3Gi"
-            requests:
               cpu: "500m"
-              memory: "2Gi"
+              memory: "1Gi"
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
           priorityClassName: system-cluster-critical
       storageClass:
         enabled: true
@@ -138,11 +138,11 @@ rook-ceph-cluster:
           port: 80
           resources:
             limits:
-              cpu: "1000m"
-              memory: "1Gi"
-            requests:
               cpu: "500m"
-              memory: "500Mi"
+              memory: "512Mi"
+            requests:
+              cpu: "300m"
+              memory: "300Mi"
           # securePort: 443
           # sslCertificateRef:
           instances: 1
