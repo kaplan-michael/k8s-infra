@@ -17,7 +17,7 @@ postgresql:
 
 
 tergum-cronjob:
-  schedule: "* * * * *"
+  schedule: "0 0 * * 0"
   extraName: tergum-postgres-backup
   tergumConfig:
       Meta:

@@ -52,7 +52,7 @@ tergum-cronjob:
                 Region: $S3_REGION
                 BucketName: $S3_BUCKET
                 Prefix: production
-                Suffix: sql
+                Suffix: sql.gz
               
   # Optional
   image: ghcr.io/tergum-extra/postgres-with-tergum:14-tergum-v0.31.1
