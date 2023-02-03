@@ -12,8 +12,5 @@ spec:
     path: k0s-prod/argocd/rook-ceph
     repoURL: https://github.com/kaplan-michael/k8s-infra.git
     targetRevision: HEAD
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+
 
