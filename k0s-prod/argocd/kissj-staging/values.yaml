@@ -15,6 +15,9 @@ postgresql:
     persistence:
       enabled: true
       size: 10Gi
+    
+    extendedConfiguration: |-
+      huge_pages = off
 
 
 tergum-cronjob:
