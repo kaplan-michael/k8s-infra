@@ -17,6 +17,27 @@ postgresql:
       enabled: true
       size: 10Gi
 
+    extendedConfiguration: |-
+      huge_pages = off
+
+    extraVolumeMounts:
+      - name: pg-sample-config
+        mountPath: /opt/bitnami/postgresql/share/postgresql.conf.sample
+        subPath: postgresql.conf.sample
+    extraVolumes:
+      - configMap:
+          name: pg-sample-config
+        name:  pg-sample-config
+  extraDeploy:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: pg-sample-config
+      data:
+        postgresql.conf.sample: |-
+          huge_pages = off
+
+
 tergum-cronjob:
   schedule: "0 0 * * *"
   extraName: tergum-postgres-backup
