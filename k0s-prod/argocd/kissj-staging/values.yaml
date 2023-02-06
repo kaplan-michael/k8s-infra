@@ -1,5 +1,6 @@
 postgresql:
   global:
+    storageClass: mayastor-3
     postgresql:
       auth:
         username: kissj
