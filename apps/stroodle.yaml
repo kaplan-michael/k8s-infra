@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stroodle
+  namespace: argocd
+spec:
+  destination:
+    namespace: stroodle
+    server: https://kubernetes.default.svc
+  project: stroodle
+  source:
+    repoURL: https://github.com/Matyas2004/Stroodl_2
+    targetRevision: HEAD
+    path: deploy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
