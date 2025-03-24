@@ -1,0 +1,53 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault
+  namespace: argocd
+spec:
+  destination:
+    namespace: vault
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    repoURL: https://helm.releases.hashicorp.com
+    chart: vault
+    targetRevision: 0.29.1
+    helm:
+      valuesObject:
+        # https://artifacthub.io/packages/helm/hashicorp/vault?modal=values
+        global:
+          tlsDisable: true
+        injector:
+          enabled: false
+        server:
+          ingress:
+            enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-production
+              external-dns.alpha.kubernetes.io/hostname: vault.kpml.net
+            pathType: Prefix
+            tls:
+              - secretName: vault-tls
+                hosts:
+                  - vault.kpml.net
+            hosts:
+              - host: vault.kpml.net
+                paths:
+                  - /
+          dataStorage:
+            enabled: true
+            size: 1Gi
+          auditStorage:
+            enabled: true
+            size: 1Gi
+          ha:
+            enabled: true
+            replicas: 2
+            raft:
+              enabled: true
