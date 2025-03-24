@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: logto
+  labels:
+    app.kubernetes.io/name: logto
+    app.kubernetes.io/instance: logto
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    external-dns.alpha.kubernetes.io/hostname: "auth.kpml.net admin.auth.kpml.net"
+
+spec:
+  rules:
+    - host: auth.kpml.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: logto
+                port:
+                  number: 3001
+    - host: admin.auth.kpml.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: logto
+                port:
+                  number: 3002
+  tls:
+    - hosts:
+        - auth.kpml.net
+        - admin.auth.kpml.net
+      secretName: logto-tls

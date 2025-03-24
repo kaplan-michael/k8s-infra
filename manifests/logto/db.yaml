@@ -1,0 +1,43 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: logto
+  namespace: logto
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.8
+  storage:
+    size: 10Gi
+  bootstrap:
+    initdb:
+      database: logto
+      owner: logto
+      postInitSQL:
+        - ALTER USER logto WITH CREATEROLE;
+  postgresql:
+    parameters:
+      timezone: "Europe/Prague"
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://logto-backups
+      endpointURL: https://s3.eu-central-1.amazonaws.com
+      s3Credentials:
+        accessKeyId:
+          name: aws-credentials
+          key: accesskey
+        secretAccessKey:
+          name: aws-credentials
+          key: secretkey
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: logto-backup
+  namespace: logto
+spec:
+  backupOwnerReference: none
+  cluster:
+    name: logto
+  immediate: true
+  method: barmanObjectStore
+  schedule: 0 0 0 * * *

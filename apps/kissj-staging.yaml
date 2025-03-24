@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kissj-staging
+  namespace: argocd
+spec:
+  destination:
+    namespace: kissj-staging
+    server: https://kubernetes.default.svc
+  project: kissj
+  source:
+    repoURL: https://github.com/kaplan-michael/k8s-infra
+    targetRevision: HEAD
+    path: manifests/kissj-staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

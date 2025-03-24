@@ -1,0 +1,41 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: kissj-staging
+  namespace: kissj-staging
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.8
+  storage:
+    size: 10Gi
+  bootstrap:
+    initdb:
+      database: kissj-staging
+      owner: kissj
+  postgresql:
+    parameters:
+      timezone: "Europe/Prague"
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://kissj-staging-db/hprod01
+      endpointURL: https://s3.eu-central-1.amazonaws.com
+      s3Credentials:
+        accessKeyId:
+          name: aws-credentials
+          key: accesskey
+        secretAccessKey:
+          name: aws-credentials
+          key: secretkey
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: kissj-staging-backup
+  namespace: kissj-staging
+spec:
+  backupOwnerReference: none
+  cluster:
+    name: kissj-staging
+  immediate: true
+  method: barmanObjectStore
+  schedule: 0 0 0 * * *

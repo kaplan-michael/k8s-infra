@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: logto-alter-db
+  namespace: logto
+  labels:
+    app.kubernetes.io/name: logto
+    app.kubernetes.io/instance: logto
+spec:
+  backoffLimit: 4
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z ${PGHOST} ${PGPORT}; do echo waiting for database; sleep 2; done;']
+          env:
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: logto-app
+                  key: host
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: logto-app
+                  key: port
+      containers:
+        - name: alter-db
+          image: ghcr.io/logto-io/logto:1.25.0
+          imagePullPolicy: Always
+          env:
+            - name: CI
+              value: 'true'
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: uri
+                  name: logto-app
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - |
+              set -e
+              echo "Running migrations..."
+              npm run cli database seed -- --swe
+              echo "Deploying alterations..."
+              npm run cli database alteration deploy
+      restartPolicy: OnFailure
