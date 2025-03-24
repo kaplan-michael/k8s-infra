@@ -14,5 +14,5 @@ spec:
     path: manifests/kissj-staging
   syncPolicy:
     automated:
-      prune: true
+      prune: false
       selfHeal: true
