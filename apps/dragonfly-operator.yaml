@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dragonfly-operator
+  namespace: argocd
+spec:
+  destination:
+    namespace: dragonfly-operator-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://github.com/kaplan-michael/k8s-infra
+    targetRevision: HEAD
+    path: manifests/dragonfly
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
