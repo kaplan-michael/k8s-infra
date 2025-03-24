@@ -14,5 +14,5 @@ spec:
     path: deploy
   syncPolicy:
     automated:
-      prune: false
+      prune: true
       selfHeal: true
