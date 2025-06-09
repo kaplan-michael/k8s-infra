@@ -15,17 +15,28 @@ spec:
   postgresql:
     parameters:
       timezone: "Europe/Prague"
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://kissj-staging-db/hprod01
-      endpointURL: https://s3.eu-central-1.amazonaws.com
-      s3Credentials:
-        accessKeyId:
-          name: aws-credentials
-          key: accesskey
-        secretAccessKey:
-          name: aws-credentials
-          key: secretkey
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: kissj-backup-s3
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: kissj-backup-s3
+  namespace: kissj-staging
+spec:
+  configuration:
+    destinationPath: s3://kissj-db-backup/staging/hprod01
+    endpointURL: https://s3.eu-central-1.amazonaws.com
+    s3Credentials:
+      accessKeyId:
+        name: aws-credentials
+        key: accesskey
+      secretAccessKey:
+        name: aws-credentials
+        key: secretkey
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
@@ -33,9 +44,11 @@ metadata:
   name: kissj-staging-backup
   namespace: kissj-staging
 spec:
-  backupOwnerReference: none
+  backupOwnerReference: self
   cluster:
     name: kissj-staging
   immediate: true
-  method: barmanObjectStore
+  method: plugin
   schedule: 0 0 0 * * *
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
