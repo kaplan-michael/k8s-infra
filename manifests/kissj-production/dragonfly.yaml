@@ -1,0 +1,20 @@
+apiVersion: dragonflydb.io/v1alpha1
+kind: Dragonfly
+metadata:
+  labels:
+    app.kubernetes.io/name: dragonfly
+  name: kissj-production-dragonfly
+  namespace: kissj-production
+spec:
+  authentication:
+    passwordFromSecret:
+      key: password
+      name: kissj-production-dragonfly
+  replicas: 1
+  resources:
+    limits:
+      cpu: 200m
+      memory: 500Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi

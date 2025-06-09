@@ -1,16 +1,16 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: kissj-staging
-  namespace: kissj-staging
+  name: kissj-production
+  namespace: kissj-production
 spec:
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:16.8
   storage:
-    size: 10Gi
+    size: 20Gi
   bootstrap:
     initdb:
-      database: kissj-staging
+      database: kissj-production
       owner: kissj
   postgresql:
     parameters:
@@ -25,11 +25,11 @@ apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
   name: kissj-backup-s3
-  namespace: kissj-staging
+  namespace: kissj-production
 spec:
-  retentionPolicy: "14d"
+  retentionPolicy: 60d
   configuration:
-    destinationPath: s3://kissj-db-backup/staging/hprod01
+    destinationPath: s3://kissj-db-backup/production/hprod01
     endpointURL: https://s3.eu-central-1.amazonaws.com
     s3Credentials:
       accessKeyId:
@@ -42,12 +42,12 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: kissj-staging-backup
-  namespace: kissj-staging
+  name: kissj-production-backup
+  namespace: kissj-production
 spec:
   backupOwnerReference: self
   cluster:
-    name: kissj-staging
+    name: kissj-production
   immediate: true
   method: plugin
   schedule: 0 0 0 * * *
