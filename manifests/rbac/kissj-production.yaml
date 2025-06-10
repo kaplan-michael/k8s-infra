@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kissj-production-service-user
+  namespace: kissj-production
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kissj-production-service-user-token
+  namespace: kissj-production
+  annotations:
+    kubernetes.io/service-account.name: kissj-production-service-user
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kissj-production-role
+  namespace: kissj-production
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kissj-production-role-binding
+  namespace: kissj-production
+subjects:
+  - kind: ServiceAccount
+    name: kissj-production-service-user
+    namespace: kissj-production
+roleRef:
+  kind: Role
+  name: kissj-production-role
+  apiGroup: rbac.authorization.k8s.io
