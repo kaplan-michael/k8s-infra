@@ -1,11 +1,11 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: restrict-external-dns-hostnames-stroodle
+  name: restrict-external-dns-hostnames-skauti-uragan-zbraslav
   annotations:
-    policies.kyverno.io/title: Restrict External DNS Hostnames in namespace stroodle
+    policies.kyverno.io/title: Restrict External DNS Hostnames
     policies.kyverno.io/description: >
-      Enforce that any Service in namespace "stroodle" must have an external-dns hostname
+      Enforce that any Service must have an external-dns hostname
       annotation that is either exactly "skauti-uragan-zbraslav.cz" or a subdomain ending with ".skauti-uragan-zbraslav.cz".
 spec:
   validationFailureAction: enforce
@@ -16,6 +16,7 @@ spec:
         resources:
           namespaces:
             - stroodle
+            - infowars
           kinds:
             - Service
             - Ingress
