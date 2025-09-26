@@ -1,6 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: reloader
+namespace: dragonfy-operator
 resources:
-  - reloader-1.4.8.yaml
-  - ns.yaml
+  - dragonfly-operator-v1.2.1.yaml
