@@ -3,6 +3,8 @@ kind: Cluster
 metadata:
   name: kissj-production
   namespace: kissj-production
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
 spec:
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:16.8
@@ -26,6 +28,8 @@ kind: ObjectStore
 metadata:
   name: kissj-backup-s3
   namespace: kissj-production
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
 spec:
   retentionPolicy: 60d
   configuration:
@@ -44,6 +48,8 @@ kind: ScheduledBackup
 metadata:
   name: kissj-production-backup
   namespace: kissj-production
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
 spec:
   backupOwnerReference: self
   cluster:
