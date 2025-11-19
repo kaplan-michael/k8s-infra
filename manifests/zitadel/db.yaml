@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: zitadel
+  name: zitadel-db
   namespace: zitadel
   annotations:
     argocd.argoproj.io/sync-options: Prune=false
@@ -56,7 +56,7 @@ metadata:
 spec:
   backupOwnerReference: self
   cluster:
-    name: zitadel
+    name: zitadel-db
   immediate: true
   method: plugin
   schedule: 0 0 0 * * *
