@@ -1,0 +1,74 @@
+zitadel:
+  masterkeySecretName: zitadel-masterkey
+  dbSslCaCrtSecret: zitadel-db-ca
+  configSecretName: zitadel-config
+  configSecretKey: config.yaml
+
+  configmapConfig:
+    ExternalSecure: true
+    ExternalDomain: iam.kpml.net
+    ExternalPort: 443
+    TLS:
+      Enabled: false
+    Database:
+      Postgres:
+        Host: zitadel-db-rw
+        Port: 5432
+        Database: zitadel
+        MaxOpenConns: 20
+        MaxIdleConns: 10
+        MaxConnLifetime: 30m
+        MaxConnIdleTime: 5m
+        User:
+          Username: zitadel
+          SSL:
+            Mode: verify-ca
+    FirstInstance:
+      Skip: false
+      Org:
+        Name: "KPML Admin"
+        Machine:
+          Machine:
+            Username: "iam-admin"
+            Name: "Automatically Initialized IAM Admin"
+          MachineKey:
+            Type: 1
+            ExpirationDate: "2030-01-01T00:00:00Z"
+          Pat:
+            ExpirationDate: "2030-01-01T00:00:00Z"
+        LoginClient:
+          Machine:
+            Username: "login-client"
+            Name: "Automatically Initialized IAM Login Client"
+          Pat:
+            ExpirationDate: "2030-01-01T00:00:00Z"
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    external-dns.alpha.kubernetes.io/hostname: iam.kpml.net
+  tls:
+    - hosts:
+        - iam.kpml.net
+      secretName: zitadel-tls
+login:
+  ingress:
+    enabled: true
+    className: nginx
+    tls:
+      - hosts:
+          - iam.kpml.net
+        secretName: zitadel-tls
+env:
+  - name: ZITADEL_DATABASE_POSTGRES_USER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: zitadel-db-app
+        key: password
+initJob:
+  enabled: true
+  command: zitadel
