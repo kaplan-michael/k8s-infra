@@ -55,7 +55,12 @@ ingress:
     - hosts:
         - iam.kpml.net
       secretName: zitadel-tls
+image:
+  tag: v4.7.5
+
 login:
+  image:
+    tag: v4.7.5
   ingress:
     enabled: true
     className: nginx
