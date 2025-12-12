@@ -68,6 +68,12 @@ login:
       - hosts:
           - iam.kpml.net
         secretName: zitadel-tls
+
+  customConfigmapConfig: |
+    ZITADEL_SERVICE_USER_TOKEN_FILE="/login-client/pat"
+    ZITADEL_API_URL="http://zitadel:8080"
+    CUSTOM_REQUEST_HEADERS="Host:iam.kpml.net,X-Zitadel-Public-Host:iam.kpml.net"
+
 env:
   - name: ZITADEL_DATABASE_POSTGRES_USER_PASSWORD
     valueFrom:
