@@ -59,3 +59,22 @@ spec:
   schedule: 0 0 0 * * *
   pluginConfiguration:
     name: barman-cloud.cloudnative-pg.io
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: kissj-production-pooler
+  namespace: kissj-production
+spec:
+  cluster:
+    name: kissj-production
+  instances: 1
+  type: rw
+  pgbouncer:
+    poolMode: transaction
+    parameters:
+      max_client_conn: "2500"
+      max_db_connections: "100"
+      ignore_startup_parameters: extra_float_digits
+      default_pool_size: "290"
+      min_pool_size: "10"
