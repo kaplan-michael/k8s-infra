@@ -1,3 +1,4 @@
+replicaCount: 0
 zitadel:
   masterkeySecretName: zitadel-masterkey
   dbSslCaCrtSecret: zitadel-db-ca
@@ -44,7 +45,7 @@ zitadel:
             ExpirationDate: "2030-01-01T00:00:00Z"
 
 ingress:
-  enabled: true
+  enabled: false
   className: nginx
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
@@ -59,10 +60,11 @@ image:
   tag: v4.7.5
 
 login:
+  enabled: false
   image:
     tag: v4.7.5
   ingress:
-    enabled: true
+    enabled: false
     className: nginx
     tls:
       - hosts:
