@@ -14,4 +14,7 @@ spec:
     repoURL: https://github.com/uragandevs/deployments.git
     targetRevision: main
     path: stroodle
-  syncPolicy: {}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
