@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  annotations:
+    argocd-autopilot.argoproj-labs.io/default-dest-server: https://kubernetes.default.svc
+    argocd.argoproj.io/sync-options: PruneLast=true,Prune=false
+    argocd.argoproj.io/sync-wave: "-2"
+  name: uragan
+  namespace: argocd
+spec:
+  clusterResourceWhitelist: []
+  description: Uragan deployments
+  destinations:
+    - namespace: "stroodle"
+      server: "https://kubernetes.default.svc"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceBlacklist:
+    - group: argoproj.io
+      kind: "*"
+  sourceRepos:
+    - https://github.com/uragandevs/deployments.git

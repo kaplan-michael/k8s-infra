@@ -1,6 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
   name: stroodle
   namespace: argocd
 spec:
@@ -12,7 +14,4 @@ spec:
     repoURL: https://github.com/Matyas2004/Stroodl_2
     targetRevision: HEAD
     path: deploy
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  syncPolicy: {}

@@ -26,5 +26,5 @@ kind: Namespace
 metadata:
   name: stroodle
   annotations:
-    argocd.argoproj.io/sync-options: Prune=false
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
     argocd.argoproj.io/sync-wave: "-1"
