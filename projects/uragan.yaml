@@ -21,3 +21,11 @@ spec:
       kind: "*"
   sourceRepos:
     - https://github.com/uragandevs/deployments.git
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: stroodle
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    argocd.argoproj.io/sync-wave: "-1"
